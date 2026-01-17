@@ -50,9 +50,9 @@ export const AdminPage = () => {
         setLoading(true);
         try {
             // Get users in_review
+            // Get all users for debugging
             const q = query(
-                collection(db, "users"),
-                where("status", "==", "in_review")
+                collection(db, "users")
                 // orderBy("createdAt", "desc") // Requires index, remove if causing errors in dev
             );
             const snapshot = await getDocs(q);
