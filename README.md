@@ -1,73 +1,34 @@
-# Welcome to your Lovable project
+# MORA - Next Generation Social Platform
 
-## Project info
+## Design Philosophy
+MORA is designed to be the most premium, fluid, and emotionally intelligent social platform. 
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+### Key Features
+- **Deep Space Theme**: A custom dark mode palette using `hsl(240 10% 3.9%)` as the base.
+- **Electric Gradients**: Vibrant teal to purple gradients (`text-gradient`) that pop against the dark background.
+- **Glassmorphism 2.0**: Refined glass effects with `backdrop-filter` and subtle white borders.
+- **Micro-interactions**: Framer Motion powers every interaction from button clicks to input validation.
+- **Responsive**: A "mobile-first" but "desktop-class" layouts.
 
-## How can I edit this code?
+## Getting Started
 
-There are several ways of editing your application.
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-**Use Lovable**
+2. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+   
+3. **Open in Browser**
+   Visit `http://localhost:5173` (or the port shown in terminal)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Project Structure
+- `src/index.css`: The heart of the design system (variables, utilities).
+- `src/components/LoginCard.tsx`: The ultra-premium login component.
+- `src/pages/LoginPage.tsx`: The main landing experience.
+- `src/components/ui`: Reusable Shadcn-style components (Button, Input, Label).
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Enjoy the experience.
