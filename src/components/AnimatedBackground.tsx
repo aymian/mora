@@ -27,11 +27,11 @@ export const AnimatedBackground = () => {
             {/* Base gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#050505]" />
 
-            {/* Animated gradient orbs */}
+            {/* Animated gradient orbs - Optimized: Removed blur-3xl, using softer gradients */}
             <motion.div
-                className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl will-change-transform"
+                className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 will-change-transform"
                 style={{
-                    background: "radial-gradient(circle, hsl(var(--mora-gradient-start)) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, hsl(var(--mora-gradient-start)) 0%, transparent 60%)",
                 }}
                 animate={{
                     x: [0, 100, 0],
@@ -46,9 +46,9 @@ export const AnimatedBackground = () => {
             />
 
             <motion.div
-                className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl will-change-transform"
+                className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-20 will-change-transform"
                 style={{
-                    background: "radial-gradient(circle, hsl(var(--mora-gradient-end)) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, hsl(var(--mora-gradient-end)) 0%, transparent 60%)",
                 }}
                 animate={{
                     x: [0, -80, 0],
@@ -63,9 +63,9 @@ export const AnimatedBackground = () => {
             />
 
             <motion.div
-                className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl will-change-transform"
+                className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full opacity-10 will-change-transform"
                 style={{
-                    background: "radial-gradient(circle, hsl(var(--mora-accent)) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, hsl(var(--mora-accent)) 0%, transparent 60%)",
                     x: "-50%",
                     y: "-50%",
                 }}
@@ -82,9 +82,9 @@ export const AnimatedBackground = () => {
 
             {/* Interactive gradient that follows mouse */}
             <motion.div
-                className="absolute w-[300px] h-[300px] rounded-full opacity-10 blur-3xl pointer-events-none will-change-transform"
+                className="absolute w-[300px] h-[300px] rounded-full opacity-15 pointer-events-none will-change-transform"
                 style={{
-                    background: "radial-gradient(circle, hsl(var(--mora-gradient-start)) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, hsl(var(--mora-gradient-start)) 0%, transparent 60%)",
                     x: springX,
                     y: springY,
                 }}
