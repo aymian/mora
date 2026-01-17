@@ -105,8 +105,8 @@ export const SignupCard = () => {
                 email,
                 password,
                 options: {
-                    // Redirect to onboarding after email verification
-                    emailRedirectTo: `${window.location.origin}/onboarding`,
+                    // Redirect to verify page to handle confirmation first
+                    emailRedirectTo: `${window.location.origin}/verify`,
                     data: {
                         username: username,
                     }
