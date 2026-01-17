@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Eye, EyeOff, Mail, Lock, User, Check, AlertCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "../lib/firebase";
+import { db } from "../lib/firebase";
+import { supabase } from "../lib/supabase";
 
 export const SignupCard = () => {
     const navigate = useNavigate();
@@ -100,35 +100,41 @@ export const SignupCard = () => {
         setGeneralError("");
 
         try {
-            // 1. Create User in Firebase Auth
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-
-            // 2. Create User Document in Firestore
-            await setDoc(doc(db, "users", user.uid), {
-                uid: user.uid,
-                username: username,
-                email: email,
-                status: "pending", // As requested
-                role: "user",
-                createdAt: serverTimestamp(),
-                photoURL: user.photoURL || null,
+            // 1. Sign Up with Supabase Auth
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    // Redirect to onboarding after email verification
+                    emailRedirectTo: `${window.location.origin}/onboarding`,
+                    data: {
+                        username: username,
+                    }
+                }
             });
 
-            // 3. Redirect to Verify Page
-            navigate("/verify");
+            if (error) throw error;
+
+            if (data.user) {
+                // 2. Create User Document in Firebase Firestore
+                // We use the Supabase User ID as the key for consistency/reference
+                await setDoc(doc(db, "users", data.user.id), {
+                    uid: data.user.id,
+                    username: username,
+                    email: email,
+                    status: "pending",
+                    role: "user",
+                    authProvider: "supabase",
+                    createdAt: serverTimestamp(),
+                });
+
+                // 3. Redirect to Verify Page
+                navigate("/verify");
+            }
 
         } catch (error: any) {
             console.error("Signup error:", error);
-            if (error.code === 'auth/email-already-in-use') {
-                setGeneralError("Email is already registered.");
-            } else if (error.code === 'auth/invalid-email') {
-                setGeneralError("Invalid email address.");
-            } else if (error.code === 'auth/weak-password') {
-                setGeneralError("Password is too weak.");
-            } else {
-                setGeneralError(error.message || "Failed to create account. Please try again.");
-            }
+            setGeneralError(error.message || "Failed to create account. Please try again.");
         } finally {
             setIsLoading(false);
         }
