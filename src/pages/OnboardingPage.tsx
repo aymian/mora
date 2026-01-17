@@ -9,7 +9,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { supabase } from "../lib/supabase";
 import { countries } from "../lib/countries";
-import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 // Types
@@ -81,6 +81,27 @@ export const OnboardingPage = () => {
             return () => clearInterval(timer);
         }
     }, [step, timeLeft]);
+
+    // Real-time Status Listener for Approval
+    useEffect(() => {
+        let unsubscribe: () => void;
+
+        if (step === 4 && userId) {
+            const userRef = doc(db, "users", userId);
+            unsubscribe = onSnapshot(userRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.status === 'active' || data.onboardingComplete === true) {
+                        navigate('/dashboard');
+                    }
+                }
+            });
+        }
+
+        return () => {
+            if (unsubscribe) unsubscribe();
+        };
+    }, [step, userId, navigate]);
 
     const formatTime = (seconds: number) => {
         const m = Math.floor(seconds / 60);
