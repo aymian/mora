@@ -1,20 +1,26 @@
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect } from "react";
 
 export const AnimatedBackground = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    // Use MotionValues to avoid React re-renders on mouse move
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Smooth spring animation for the mouse follower
+    const springConfig = { damping: 30, stiffness: 100 };
+    const springX = useSpring(mouseX, springConfig);
+    const springY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({
-                x: e.clientX / window.innerWidth,
-                y: e.clientY / window.innerHeight,
-            });
+            // Update motion values directly
+            mouseX.set(e.clientX - 150);
+            mouseY.set(e.clientY - 150);
         };
 
         window.addEventListener("mousemove", handleMouseMove);
         return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+    }, [mouseX, mouseY]);
 
     return (
         <div className="absolute inset-0 overflow-hidden">
@@ -23,7 +29,7 @@ export const AnimatedBackground = () => {
 
             {/* Animated gradient orbs */}
             <motion.div
-                className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl"
+                className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl will-change-transform"
                 style={{
                     background: "radial-gradient(circle, hsl(var(--mora-gradient-start)) 0%, transparent 70%)",
                 }}
@@ -40,7 +46,7 @@ export const AnimatedBackground = () => {
             />
 
             <motion.div
-                className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl"
+                className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl will-change-transform"
                 style={{
                     background: "radial-gradient(circle, hsl(var(--mora-gradient-end)) 0%, transparent 70%)",
                 }}
@@ -57,7 +63,7 @@ export const AnimatedBackground = () => {
             />
 
             <motion.div
-                className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl"
+                className="absolute top-1/2 left-1/2 w-[400px] h-[400px] rounded-full opacity-10 blur-3xl will-change-transform"
                 style={{
                     background: "radial-gradient(circle, hsl(var(--mora-accent)) 0%, transparent 70%)",
                     x: "-50%",
@@ -76,18 +82,11 @@ export const AnimatedBackground = () => {
 
             {/* Interactive gradient that follows mouse */}
             <motion.div
-                className="absolute w-[300px] h-[300px] rounded-full opacity-10 blur-3xl pointer-events-none"
+                className="absolute w-[300px] h-[300px] rounded-full opacity-10 blur-3xl pointer-events-none will-change-transform"
                 style={{
                     background: "radial-gradient(circle, hsl(var(--mora-gradient-start)) 0%, transparent 70%)",
-                }}
-                animate={{
-                    x: mousePosition.x * window.innerWidth - 150,
-                    y: mousePosition.y * window.innerHeight - 150,
-                }}
-                transition={{
-                    type: "spring",
-                    damping: 30,
-                    stiffness: 100,
+                    x: springX,
+                    y: springY,
                 }}
             />
 
